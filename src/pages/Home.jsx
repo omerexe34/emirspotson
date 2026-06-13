@@ -8,10 +8,10 @@ import { Search, Tag, MessageSquare, Loader2, Star, Package, Users, ThumbsUp } f
 import { supabase } from '../utils/supabase';
 
 const REVIEWS = [
-  { name: 'Ahmet Y.', loc: 'Pendik', text: 'Çok memnun kaldım. Buzdolabını gerçekten değerinde aldılar, para da anında verildi. Kesinlikle tavsiye ederim!', initials: 'AY' },
-  { name: 'Fatma K.', loc: 'Kartal', text: 'WhatsApp\'tan fotoğraf attım, yarım saat içinde geldiler. Mobilyalarımı güzel bir fiyata aldılar. Teşekkürler Emir Spot!', initials: 'FK' },
-  { name: 'Mehmet S.', loc: 'Maltepe', text: 'Hem alım hem satım yaptım. Fiyatları piyasanın en iyisi. İkinci el ihtiyaçlarım için artık ilk tercihim.', initials: 'MS' },
-  { name: 'Ayşe D.', loc: 'Tuzla', text: 'Çok güvenilir bir yer. Taşınırken tüm eşyalarımı buraya sattım, hiçbir sorun yaşamadım. Harika hizmet!', initials: 'AD' },
+  { name: 'Ahmet Y.', loc: 'Pendik', text: 'Çok memnun kaldım. Buzdolabını gerçekten değerinde aldılar, para da anında verildi. Kesinlikle tavsiye ederim!', initials: 'AY', stars: '★★★★★' },
+  { name: 'Fatma K.', loc: 'Kartal', text: 'WhatsApp\'tan fotoğraf attım, biraz geciktiler ama mobilyalarımı güzel bir fiyata aldılar. Teşekkürler Emir Spot!', initials: 'FK', stars: '★★★★☆' },
+  { name: 'Mehmet S.', loc: 'Maltepe', text: 'Hem alım hem satım yaptım. Fiyatları piyasanın en iyisi. İkinci el ihtiyaçlarım için artık ilk tercihim.', initials: 'MS', stars: '★★★★★' },
+  { name: 'Ayşe D.', loc: 'Tuzla', text: 'Güvenilir bir yer. Taşınırken tüm eşyalarımı buraya sattım, iletişimleri çok iyiydi.', initials: 'AD', stars: '★★★★☆' },
 ];
 
 const Home = () => {
@@ -195,7 +195,7 @@ const Home = () => {
             <motion.div key={i} className="review-card"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-              <div className="review-stars">★★★★★</div>
+              <div className="review-stars">{r.stars}</div>
               <p className="review-text">"{r.text}"</p>
               <div className="review-author">
                 <div className="review-avatar">{r.initials}</div>
