@@ -4,50 +4,40 @@ import { Store, Clock, Circle } from 'lucide-react';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const checkOpenStatus = () => {
+    const checkOpen = () => {
       const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      
-      const currentTimeInMinutes = hours * 60 + minutes;
-      const openTimeInMinutes = 8 * 60 + 30; // 08:30
-      const closeTimeInMinutes = 20 * 60; // 20:00
-      
-      if (currentTimeInMinutes >= openTimeInMinutes && currentTimeInMinutes < closeTimeInMinutes) {
-        setIsOpen(true);
-      } else {
-        setIsOpen(false);
-      }
+      const mins = now.getHours() * 60 + now.getMinutes();
+      setIsOpen(mins >= 8 * 60 + 30 && mins < 20 * 60);
     };
+    checkOpen();
+    const t = setInterval(checkOpen, 60000);
 
-    checkOpenStatus();
-    const interval = setInterval(checkOpenStatus, 60000);
-    return () => clearInterval(interval);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+
+    return () => { clearInterval(t); window.removeEventListener('scroll', handleScroll); };
   }, []);
 
   return (
-    <header>
+    <header className={scrolled ? 'scrolled' : ''}>
       <div className="container header-container flex items-center justify-between">
         <Link to="/" className="logo">
-          <Store size={32} color="var(--primary)" />
+          <Store size={28} color="#e63946" />
           Emir<span>Spot</span>
         </Link>
-        <div className="working-hours" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', lineHeight: 1.2 }}>
-            <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>08:30 - 20:00</span>
-            <span style={{ 
-              fontSize: '0.75rem', 
-              fontWeight: 800, 
-              color: isOpen ? '#10b981' : '#ef4444',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.25rem'
-            }}>
-              <Circle size={8} fill="currentColor" strokeWidth={0} />
-              {isOpen ? 'ŞU AN AÇIK' : 'ŞU AN KAPALI'}
-            </span>
+
+        <div className="flex items-center" style={{ gap: '1rem' }}>
+          <div className="status-badge">
+            <div className={`status-dot ${isOpen ? 'open' : 'closed'}`} />
+            <div>
+              <div style={{ fontSize: '0.75rem', fontWeight: 800, color: isOpen ? '#10b981' : '#ef4444' }}>
+                {isOpen ? 'AÇIK' : 'KAPALI'}
+              </div>
+              <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600 }}>08:30 – 20:00</div>
+            </div>
           </div>
         </div>
       </div>
@@ -56,4 +46,3 @@ const Header = () => {
 };
 
 export default Header;
-

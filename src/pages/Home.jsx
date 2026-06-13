@@ -4,8 +4,15 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { categories, WHATSAPP_NUMBER } from '../data/mockData';
 import ProductCard from '../components/ProductCard';
-import { Search, Tag, MessageSquare, Loader2 } from 'lucide-react';
+import { Search, Tag, MessageSquare, Loader2, Star, Package, Users, ThumbsUp } from 'lucide-react';
 import { supabase } from '../utils/supabase';
+
+const REVIEWS = [
+  { name: 'Ahmet Y.', loc: 'Pendik', text: 'Çok memnun kaldım. Buzdolabını gerçekten değerinde aldılar, para da anında verildi. Kesinlikle tavsiye ederim!', initials: 'AY' },
+  { name: 'Fatma K.', loc: 'Kartal', text: 'WhatsApp\'tan fotoğraf attım, yarım saat içinde geldiler. Mobilyalarımı güzel bir fiyata aldılar. Teşekkürler Emir Spot!', initials: 'FK' },
+  { name: 'Mehmet S.', loc: 'Maltepe', text: 'Hem alım hem satım yaptım. Fiyatları piyasanın en iyisi. İkinci el ihtiyaçlarım için artık ilk tercihim.', initials: 'MS' },
+  { name: 'Ayşe D.', loc: 'Tuzla', text: 'Çok güvenilir bir yer. Taşınırken tüm eşyalarımı buraya sattım, hiçbir sorun yaşamadım. Harika hizmet!', initials: 'AD' },
+];
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,189 +23,220 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  useEffect(() => { fetchProducts(); }, []);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data) {
-        setProducts(data);
-      }
+      const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
+      if (error) throw error;
+      if (data) setProducts(data);
     } catch (err) {
-      console.error('Error fetching products:', err);
-      setError('İlanlar yüklenirken bir hata oluştu veya veritabanı tablosu ("products") henüz oluşturulmadı.');
+      setError('İlanlar yüklenirken bir hata oluştu.');
     } finally {
       setLoading(false);
     }
   };
 
   const filteredProducts = products.filter(p => {
-    const matchesCategory = activeCategory === 'Tümü' || p.category === activeCategory;
-    const titleMatch = p.title ? p.title.toLowerCase().includes(searchQuery.toLowerCase()) : false;
-    return matchesCategory && titleMatch;
+    const matchCat = activeCategory === 'Tümü' || p.category === activeCategory;
+    const matchSearch = p.title ? p.title.toLowerCase().includes(searchQuery.toLowerCase()) : false;
+    return matchCat && matchSearch;
   }).sort((a, b) => {
     if (sortBy === 'price-asc') return Number(a.price) - Number(b.price);
     if (sortBy === 'price-desc') return Number(b.price) - Number(a.price);
     return new Date(b.created_at || 0) - new Date(a.created_at || 0);
   });
 
+  const categoryEmojis = { 'Tümü': '🏠', 'Mobilya': '🛋️', 'Elektronik': '📱', 'Beyaz Eşya': '🧺', 'Mutfak': '🍳', 'Diğer': '📦' };
+
   return (
     <div style={{ paddingBottom: '2rem' }}>
       <Helmet>
         <title>Emir Spot | İkinci El Eşya Alım Satım Merkezi</title>
         <meta name="description" content="Kullanmadığınız eşyalarınızı değerinde nakit alıyor, ihtiyacınız olan ürünleri en uygun fiyata sunuyoruz. Pendik ve çevresi spot eşya." />
-        <meta property="og:title" content="Emir Spot | İkinci El Eşya" />
-        <meta property="og:description" content="İkinci el eşyalarınızı anında nakde çevirin veya uygun fiyata eşya alın." />
-        <meta property="og:type" content="website" />
       </Helmet>
-      {/* Hero Section */}
+
+      {/* ── Hero ── */}
       <div className="container">
-        <section className="hero">
-          <h1>İkinci El Eşyada<br/><span style={{ color: 'var(--primary)' }}>Güvenin Adresi</span></h1>
-          <p>Kullanmadığınız eşyalarınızı değerinde nakit olarak alıyor, ihtiyacınız olan ürünleri en uygun fiyat garantisiyle sizlere sunuyoruz.</p>
-          <div className="hero-buttons">
-            <a 
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=Merhaba, size eşya satmak istiyorum. Fotoğraf gönderebilir miyim?`}
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn-primary"
-            >
-              <MessageSquare size={20} />
-              Eşya Satmak İstiyorum
-            </a>
-            <a href="#ilanlar" className="btn-secondary">
-              İlanları İncele
-            </a>
+        <motion.section
+          className="hero"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="hero-eyebrow">
+            <Star size={14} />
+            Pendik'in 1 Numaralı Spot Mağazası
           </div>
-        </section>
+          <h1>İkinci El Eşyada<br /><span>Güvenin Adresi</span></h1>
+          <p>Kullanmadığınız eşyalarınızı değerinde nakit alıyor, ihtiyacınız olan ürünleri en uygun fiyat garantisiyle sunuyoruz.</p>
+          <div className="hero-buttons">
+            <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=Merhaba, size eşya satmak istiyorum. Fotoğraf gönderebilir miyim?`}
+              target="_blank" rel="noopener noreferrer" className="btn-primary">
+              <MessageSquare size={20} /> Eşya Satmak İstiyorum
+            </a>
+            <a href="#ilanlar" className="btn-secondary">İlanları İncele →</a>
+          </div>
+
+          <div className="stats-bar">
+            <div className="stat-item">
+              <div className="stat-num">500+</div>
+              <div className="stat-label">Aktif İlan</div>
+            </div>
+            <div className="stat-item">
+              <div className="stat-num">2K+</div>
+              <div className="stat-label">Mutlu Müşteri</div>
+            </div>
+            <div className="stat-item">
+              <div className="stat-num">5★</div>
+              <div className="stat-label">Memnuniyet</div>
+            </div>
+          </div>
+        </motion.section>
       </div>
 
+      {/* ── How It Works ── */}
+      <div className="container">
+        <div className="how-section">
+          <div className="section-eyebrow">Nasıl Çalışır?</div>
+          <div className="section-title">3 Adımda Nakite Çevir</div>
+          <div className="steps-grid">
+            {[
+              { icon: '📸', title: 'Fotoğraf Gönder', desc: 'WhatsApp\'tan eşyanızın fotoğrafını bize gönderin.' },
+              { icon: '💰', title: 'Fiyat Al', desc: 'Anında değerlendirme yaparak size en iyi fiyatı verelim.' },
+              { icon: '🚚', title: 'Nakit Öde', desc: 'Kapınıza gelip eşyayı alıyor, anında nakit ödüyoruz.' },
+            ].map((step, i) => (
+              <motion.div key={i} className="step-card"
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.15 }}>
+                <div className="step-icon">{step.icon}</div>
+                <div className="step-title">{step.title}</div>
+                <div className="step-desc">{step.desc}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Products ── */}
       <div className="container" id="ilanlar">
-        {/* Search and Filters */}
-        <div className="flex items-center justify-between" style={{ flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
-          <h2 className="section-title" style={{ margin: 0 }}><Tag size={28} /> Kategoriler</h2>
-          
-          <div style={{ position: 'relative', width: '100%', maxWidth: '300px' }}>
-            <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-            <input 
-              type="text" 
-              className="form-input" 
-              placeholder="İlanlarda ara..." 
-              style={{ paddingLeft: '2.5rem', background: 'var(--bg-card)', color: 'var(--text-dark)' }}
+        <div className="section-header">
+          <div className="section-eyebrow">Güncel İlanlar</div>
+          <div className="section-title">Mevcut Ürünlerimiz</div>
+        </div>
+
+        <div className="filter-bar">
+          <div className="search-wrap">
+            <Search size={18} />
+            <input
+              type="text"
+              className="form-input"
+              placeholder="İlanlarda ara..."
+              style={{ paddingLeft: '2.75rem' }}
               value={searchQuery}
               onChange={(e) => {
                 const val = e.target.value;
-                if (val === '72607260') {
-                  navigate('/admin');
-                } else {
-                  setSearchQuery(val);
-                }
+                if (val === '72607260') navigate('/admin');
+                else setSearchQuery(val);
               }}
             />
           </div>
-        </div>
-
-        <div className="flex items-center justify-between" style={{ flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
-          <div className="category-filter" style={{ flex: 1, marginBottom: 0 }}>
-            {categories.map(category => (
-              <button
-                key={category}
-                className={`category-btn ${activeCategory === category ? 'active' : ''}`}
-                onClick={() => setActiveCategory(category)}
-              >
-                {category}
-              </button>
-            ))}
+          <div className="filter-row">
+            <div className="category-filter">
+              {categories.map(cat => (
+                <button key={cat}
+                  className={`category-btn ${activeCategory === cat ? 'active' : ''}`}
+                  onClick={() => setActiveCategory(cat)}>
+                  {categoryEmojis[cat] || '📦'} {cat}
+                </button>
+              ))}
+            </div>
+            <select className="sort-select" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <option value="newest">En Yeniler</option>
+              <option value="price-asc">Fiyat ↑</option>
+              <option value="price-desc">Fiyat ↓</option>
+            </select>
           </div>
-          
-          <select 
-            className="form-input" 
-            style={{ width: 'auto', minWidth: '150px', appearance: 'auto', background: 'var(--bg-card)', color: 'var(--text-dark)', padding: '0.5rem 1rem' }}
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-          >
-            <option value="newest">En Yeniler</option>
-            <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
-            <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
-          </select>
         </div>
 
-        {/* Error State */}
         {error && (
-          <div style={{ padding: '1.5rem', background: '#fee2e2', color: '#b91c1c', borderRadius: '1rem', marginBottom: '2rem', textAlign: 'center', border: '1px solid #fca5a5' }}>
+          <div style={{ padding: '1.25rem', background: '#fee2e2', color: '#b91c1c', borderRadius: '1rem', marginBottom: '1.5rem', textAlign: 'center' }}>
             {error}
           </div>
         )}
 
-        {/* Product List */}
-        <section>
-          {loading ? (
-            <div className="flex items-center" style={{ justifyContent: 'center', padding: '4rem 0', color: 'var(--text-muted)' }}>
-              <Loader2 className="spin" size={32} />
-              <span style={{ marginLeft: '1rem', fontSize: '1.25rem' }}>İlanlar yükleniyor...</span>
-              <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
-            </div>
-          ) : filteredProducts.length > 0 ? (
-            <div className="product-grid">
-              {filteredProducts.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <ProductCard product={product} />
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '5rem 2rem', background: 'var(--bg-card)', borderRadius: '1.5rem', border: '1px dashed var(--border-color)' }}>
-              <Search size={48} color="var(--border-color)" style={{ margin: '0 auto 1rem auto' }} />
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Sonuç Bulunamadı</h3>
-              <p style={{ color: 'var(--text-muted)' }}>Aradığınız kriterlere uygun ilan bulunmuyor.</p>
-            </div>
-          )}
-        </section>
-
-        {/* CTA Banner */}
-        <section className="cta-section">
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem', color: 'var(--secondary)' }}>Eski Eşyalarınızı Nakde Çevirin</h2>
-          <p style={{ fontSize: '1.125rem', color: 'var(--text-muted)', marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem auto' }}>
-            Buzdolabı, çamaşır makinesi, mobilya ve diğer ev eşyalarınız için WhatsApp'tan fotoğraf gönderin, hemen fiyat verelim. Anında nakit ödeme!
-          </p>
-          <a 
-            href={`https://wa.me/${WHATSAPP_NUMBER}?text=Merhaba, eşyalarımın fotoğrafını atsam fiyat alabilir miyim?`}
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="btn-primary"
-            style={{ padding: '1rem 2.5rem', fontSize: '1.125rem' }}
-          >
-            Hemen Fiyat Al
-          </a>
-        </section>
+        {loading ? (
+          <div className="flex items-center" style={{ justifyContent: 'center', padding: '5rem 0', color: 'var(--text-muted)', gap: '1rem' }}>
+            <Loader2 size={32} style={{ animation: 'spin 1s linear infinite' }} />
+            <span style={{ fontSize: '1.1rem' }}>İlanlar yükleniyor...</span>
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          </div>
+        ) : filteredProducts.length > 0 ? (
+          <div className="product-grid">
+            {filteredProducts.map((product, index) => (
+              <motion.div key={product.id}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: index * 0.07 }}>
+                <ProductCard product={product} />
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state">
+            <Package size={56} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
+            <h3 style={{ fontWeight: 800, marginBottom: '0.5rem' }}>Sonuç Bulunamadı</h3>
+            <p>Arama kriterlerinize uygun ilan bulunamadı.</p>
+          </div>
+        )}
       </div>
 
-      {/* Floating WhatsApp Button */}
-      <a 
-        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Merhaba, ilanlar hakkında bilgi almak istiyorum.`}
-        className="fab-whatsapp"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="WhatsApp ile iletişime geç"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+      {/* ── Reviews ── */}
+      <div className="container reviews-section">
+        <div className="section-header">
+          <div className="section-eyebrow">Müşteri Yorumları</div>
+          <div className="section-title">Onlar Memnun, Siz Memnun</div>
+        </div>
+        <div className="reviews-grid">
+          {REVIEWS.map((r, i) => (
+            <motion.div key={i} className="review-card"
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+              <div className="review-stars">★★★★★</div>
+              <p className="review-text">"{r.text}"</p>
+              <div className="review-author">
+                <div className="review-avatar">{r.initials}</div>
+                <div>
+                  <div className="review-name">{r.name}</div>
+                  <div className="review-loc">{r.loc}</div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── CTA ── */}
+      <div className="container">
+        <motion.div className="cta-section"
+          initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}>
+          <h2>Eşyalarınız Değerinde Kalsın!</h2>
+          <p>Kullanmadığınız eşyaları WhatsApp'tan fotoğraflayıp gönderin, anında fiyat alın. Kapınıza gelip nakit ödüyoruz!</p>
+          <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=Merhaba, eşyalarımın fotoğrafını atsam fiyat alabilir miyim?`}
+            target="_blank" rel="noopener noreferrer"
+            className="btn-primary"
+            style={{ backgroundColor: '#25D366', backgroundImage: 'none', boxShadow: '0 4px 20px rgba(37,211,102,0.4)', padding: '1rem 2.5rem', fontSize: '1.1rem' }}>
+            <MessageSquare size={22} /> WhatsApp'tan Hemen Yaz
+          </a>
+        </motion.div>
+      </div>
+
+      {/* ── WhatsApp FAB ── */}
+      <a href={`https://wa.me/${WHATSAPP_NUMBER}`} className="fab-whatsapp" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.13 12 19.79 19.79 0 0 1 1.06 3.38 2 2 0 0 1 3.05 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
         </svg>
       </a>
     </div>

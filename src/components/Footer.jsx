@@ -1,82 +1,78 @@
 import React from 'react';
-import { MapPin, Phone, MessageCircle, Store, Mail } from 'lucide-react';
+import { MapPin, Phone, MessageCircle, Store, Clock } from 'lucide-react';
 import { WHATSAPP_NUMBER } from '../data/mockData';
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="container">
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', marginBottom: '3rem' }}>
-          {/* Brand Col */}
+        <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '3rem', marginBottom: '3rem' }}>
+
+          {/* Brand */}
           <div>
-            <div className="logo" style={{ color: 'white', marginBottom: '1.5rem', fontSize: '2rem' }}>
-              <Store size={32} color="var(--primary)" />
-              Emir<span style={{ color: 'var(--primary)' }}>Spot</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+              <Store size={28} color="#e63946" />
+              <span style={{ fontSize: '1.5rem', fontWeight: 900, color: 'white', letterSpacing: '-0.02em' }}>Emir<span style={{ color: '#e63946' }}>Spot</span></span>
             </div>
-            <p style={{ lineHeight: 1.6, marginBottom: '1.5rem', maxWidth: '350px' }}>
-              Yılların verdiği tecrübe ile ikinci el eşyalarınızı değerinde alıyor, en kaliteli ürünleri en uygun fiyatlarla müşterilerimize sunuyoruz.
+            <p style={{ lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+              Yılların deneyimiyle ikinci el eşyalarınızı değerinde alıyor, en kaliteli ürünleri en uygun fiyatlarla sunuyoruz.
             </p>
-            <div className="flex items-center" style={{ gap: '0.75rem', marginBottom: '1rem' }}>
-              <div style={{ background: 'rgba(255,255,255,0.1)', padding: '0.5rem', borderRadius: '50%' }}>
-                <Phone size={18} color="var(--primary)" />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem' }}>
+                <Phone size={16} color="#e63946" />
+                <span>0542 677 33 03</span>
               </div>
-              <span style={{ fontSize: '1.125rem', fontWeight: 600 }}>0542 677 33 03</span>
-            </div>
-            <div className="flex items-center" style={{ gap: '0.75rem' }}>
-              <div style={{ background: 'rgba(255,255,255,0.1)', padding: '0.5rem', borderRadius: '50%' }}>
-                <MapPin size={18} color="var(--primary)" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem' }}>
+                <Clock size={16} color="#e63946" />
+                <span>Her gün 08:30 – 20:00</span>
               </div>
-              <span>Mağaza Konumumuz (Hemen Ziyaret Edin)</span>
             </div>
           </div>
-          
-          {/* Contact Col */}
+
+          {/* Contact */}
           <div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1.5rem', borderBottom: '2px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', display: 'inline-block' }}>
-              Hızlı İletişim
-            </h3>
-            <p style={{ marginBottom: '1.5rem' }}>
-              Eşya satmak veya ilanlarımız hakkında detaylı bilgi almak için bize 7/24 WhatsApp üzerinden ulaşabilirsiniz.
+            <h3>İletişim</h3>
+            <p style={{ lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.875rem' }}>
+              Satmak istediğiniz eşyaların fotoğrafını WhatsApp'tan gönderin, hemen fiyat verelim!
             </p>
-            <a 
+            <a
               href={`https://wa.me/${WHATSAPP_NUMBER}?text=Merhaba, ilanlarınız hakkında bilgi almak istiyorum.`}
-              target="_blank" 
+              target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
-              style={{ backgroundColor: '#25D366', backgroundImage: 'none', boxShadow: '0 4px 14px rgba(37, 211, 102, 0.4)', padding: '1rem 2rem' }}
-            >
-              <MessageCircle size={20} />
-              WhatsApp ile İletişime Geç
+              style={{ backgroundColor: '#25D366', backgroundImage: 'none', boxShadow: '0 4px 14px rgba(37,211,102,0.3)', width: '100%', justifyContent: 'center' }}>
+              <MessageCircle size={18} />
+              WhatsApp ile Yaz
             </a>
           </div>
 
-          {/* Map Col */}
+          {/* Map */}
           <div>
-             <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1.5rem', borderBottom: '2px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', display: 'inline-block' }}>
-              Konumumuz
-            </h3>
-            <div className="footer-map" style={{ height: '200px' }}>
-              <iframe 
-                src="https://maps.google.com/maps?q=39.503717,26.983632&hl=tr&z=15&output=embed" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0, borderRadius: '0.75rem' }} 
-                allowFullScreen="" 
-                loading="lazy" 
+            <h3>Konumumuz</h3>
+            <div className="footer-map" style={{ height: '200px', marginBottom: '1rem' }}>
+              <iframe
+                src="https://maps.google.com/maps?q=39.503717,26.983632&hl=tr&z=15&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0, borderRadius: '0.875rem' }}
+                allowFullScreen=""
+                loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Emir Spot Konum"
-              ></iframe>
+              />
             </div>
-            <p style={{ marginTop: '1rem', textAlign: 'right' }}>
-              <a href="https://maps.app.goo.gl/rrzWC2fHYUt7Erb17" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontWeight: 600 }}>
-                Haritalarda Aç &rarr;
-              </a>
-            </p>
+            <a
+              href="https://maps.app.goo.gl/rrzWC2fHYUt7Erb17"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#e63946', fontWeight: 700, fontSize: '0.875rem' }}>
+              <MapPin size={16} /> Haritada Aç →
+            </a>
           </div>
         </div>
-        
-        <div style={{ textAlign: 'center', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '0.875rem' }} className="text-muted">
-          &copy; {new Date().getFullYear()} Emir Spot. Tüm hakları saklıdır. Her gün 08:30 - 20:00 arası hizmetinizdeyiz.
+
+        <div className="footer-bottom">
+          © {new Date().getFullYear()} Emir Spot. Tüm hakları saklıdır.
         </div>
       </div>
     </footer>
