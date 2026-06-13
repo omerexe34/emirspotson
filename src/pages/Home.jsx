@@ -8,10 +8,10 @@ import { Search, Tag, MessageSquare, Loader2, Star, Package, Users, ThumbsUp } f
 import { supabase } from '../utils/supabase';
 
 const REVIEWS = [
-  { name: 'Ahmet Y.', loc: 'Pendik', text: 'Çok memnun kaldım. Buzdolabını gerçekten değerinde aldılar, para da anında verildi. Kesinlikle tavsiye ederim!', initials: 'AY', stars: '★★★★★' },
-  { name: 'Fatma K.', loc: 'Kartal', text: 'WhatsApp\'tan fotoğraf attım, biraz geciktiler ama mobilyalarımı güzel bir fiyata aldılar. Teşekkürler Emir Spot!', initials: 'FK', stars: '★★★★☆' },
-  { name: 'Mehmet S.', loc: 'Maltepe', text: 'Hem alım hem satım yaptım. Fiyatları piyasanın en iyisi. İkinci el ihtiyaçlarım için artık ilk tercihim.', initials: 'MS', stars: '★★★★★' },
-  { name: 'Ayşe D.', loc: 'Tuzla', text: 'Güvenilir bir yer. Taşınırken tüm eşyalarımı buraya sattım, iletişimleri çok iyiydi.', initials: 'AD', stars: '★★★★☆' },
+  { name: 'Ahmet Y.', loc: 'Burhaniye', text: 'Çok memnun kaldım. Buzdolabını gerçekten değerinde aldılar, para da anında verildi. Kesinlikle tavsiye ederim!', initials: 'AY', stars: '★★★★★' },
+  { name: 'Fatma K.', loc: 'Ören', text: 'WhatsApp\'tan fotoğraf attım, biraz geciktiler ama mobilyalarımı güzel bir fiyata aldılar. Teşekkürler Emir Spot!', initials: 'FK', stars: '★★★★☆' },
+  { name: 'Mehmet S.', loc: 'Edremit', text: 'Hem alım hem satım yaptım. Fiyatları piyasanın en iyisi. İkinci el ihtiyaçlarım için artık ilk tercihim.', initials: 'MS', stars: '★★★★★' },
+  { name: 'Ayşe D.', loc: 'Ayvalık', text: 'Güvenilir bir yer. Taşınırken tüm eşyalarımı buraya sattım, iletişimleri çok iyiydi.', initials: 'AD', stars: '★★★★☆' },
 ];
 
 const Home = () => {
