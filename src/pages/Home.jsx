@@ -67,7 +67,7 @@ const Home = () => {
         >
           <div className="hero-eyebrow">
             <Star size={14} />
-            Pendik'in 1 Numaralı Spot Mağazası
+            Burhaniye'nin 1 Numaralı Spot Mağazası
           </div>
           <h1>İkinci El Eşyada<br /><span>Güvenin Adresi</span></h1>
           <p>Kullanmadığınız eşyalarınızı değerinde nakit alıyor, ihtiyacınız olan ürünleri en uygun fiyat garantisiyle sunuyoruz.</p>
@@ -79,17 +79,9 @@ const Home = () => {
             <a href="#ilanlar" className="btn-secondary">İlanları İncele →</a>
           </div>
 
-          <div className="stats-bar">
-            <div className="stat-item">
-              <div className="stat-num">500+</div>
-              <div className="stat-label">Aktif İlan</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-num">2K+</div>
-              <div className="stat-label">Mutlu Müşteri</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-num">5★</div>
+          <div className="stats-bar" style={{ maxWidth: '220px' }}>
+            <div className="stat-item" style={{ borderRight: 'none' }}>
+              <div className="stat-num">4.6★</div>
               <div className="stat-label">Memnuniyet</div>
             </div>
           </div>
