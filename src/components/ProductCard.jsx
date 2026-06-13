@@ -41,6 +41,9 @@ const ProductCard = ({ product }) => {
     }
   };
 
+  const images = product.image ? product.image.split(',') : [];
+  const mainImage = images[0] || '';
+
   const isNew = product.created_at && (Date.now() - new Date(product.created_at).getTime()) < 7 * 24 * 60 * 60 * 1000;
 
   return (
@@ -53,7 +56,7 @@ const ProductCard = ({ product }) => {
               Görsel yok
             </div>
           ) : (
-            <img src={product.image} alt={product.title} className="product-image" onError={() => setImgError(true)} />
+            <img src={mainImage} alt={product.title} className="product-image" onError={() => setImgError(true)} />
           )}
 
           <div className="zoom-overlay">
@@ -96,13 +99,20 @@ const ProductCard = ({ product }) => {
           <div className="product-modal-content" onClick={e => e.stopPropagation()}>
             <button className="modal-close-btn" onClick={() => setIsModalOpen(false)}><X size={22} /></button>
             <div className="modal-grid">
-              <div className="modal-image-wrapper">
+              <div className="modal-image-wrapper" style={{ display: 'flex', overflowX: 'auto', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
                 {imgError ? (
-                  <div style={{ width:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center', background:'#f1f5f9', fontSize: '3rem' }}>🖼️</div>
+                  <div style={{ minWidth:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center', background:'#f1f5f9', fontSize: '3rem', scrollSnapAlign: 'start' }}>🖼️</div>
                 ) : (
-                  <img src={product.image} alt={product.title} style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={() => setImgError(true)} />
+                  images.map((img, idx) => (
+                    <img key={idx} src={img} alt={`${product.title} - Fotoğraf ${idx + 1}`} style={{ minWidth:'100%', height:'100%', objectFit:'cover', scrollSnapAlign: 'start' }} onError={() => setImgError(true)} />
+                  ))
                 )}
               </div>
+              {images.length > 1 && (
+                <div style={{ textAlign: 'center', padding: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  👆 Kaydırarak diğer fotoğrafları görebilirsiniz ({images.length} fotoğraf)
+                </div>
+              )}
               <div className="modal-details">
                 <div>
                   <div style={{ display:'inline-flex', alignItems:'center', gap:'0.5rem', padding:'0.3rem 0.75rem', background:'rgba(230,57,70,0.1)', color:'var(--primary)', borderRadius:'2rem', fontSize:'0.75rem', fontWeight:800, marginBottom:'1rem', textTransform:'uppercase', letterSpacing:'0.05em' }}>

@@ -10,7 +10,7 @@ const Admin = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({ id: '', title: '', category: 'Buzdolabı', price: '', description: '' });
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -42,8 +42,8 @@ const Admin = () => {
   };
 
   const handleFileChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+    if (e.target.files && e.target.files.length > 0) {
+      setFiles(Array.from(e.target.files));
     }
   };
 
@@ -88,13 +88,13 @@ const Admin = () => {
     try {
       let imageUrl = formData.image;
 
-      // Resim seçildiyse Supabase'e yükle
-      if (file) {
-        toast.loading('Fotoğraf yükleniyor ve sıkıştırılıyor...', { id: 'uploadToast' });
-        imageUrl = await uploadImage(file);
+      if (files.length > 0) {
+        toast.loading(`${files.length} fotoğraf yükleniyor...`, { id: 'uploadToast' });
+        const uploadedUrls = await Promise.all(files.map(f => uploadImage(f)));
+        imageUrl = uploadedUrls.join(',');
         toast.dismiss('uploadToast');
       } else if (!isEditing && !imageUrl) {
-        toast.error('Lütfen bir resim seçin!');
+        toast.error('Lütfen en az bir resim seçin!');
         setSubmitting(false);
         return;
       }
@@ -137,12 +137,12 @@ const Admin = () => {
   const resetForm = () => {
     setIsEditing(false);
     setFormData({ id: '', title: '', category: 'Buzdolabı', price: '', description: '', image: '' });
-    setFile(null);
+    setFiles([]);
   };
 
   const handleEdit = (product) => {
     setFormData(product);
-    setFile(null); // Clear file input when editing existing
+    setFiles([]); // Clear file input when editing existing
     setIsEditing(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -233,15 +233,17 @@ const Admin = () => {
               <div style={{ marginBottom: '1.5rem' }}>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.875rem' }}>Ürün Fotoğrafı Yükle</label>
                 <div style={{ position: 'relative' }}>
-                  <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} id="file-upload" />
+                  <input type="file" accept="image/*" multiple onChange={handleFileChange} style={{ display: 'none' }} id="file-upload" />
                   <label htmlFor="file-upload" className="btn-secondary" style={{ width: '100%', display: 'flex', justifyContent: 'center', background: 'var(--bg-main)', borderStyle: 'dashed' }}>
                     <UploadCloud size={20} />
-                    {file ? file.name : (formData.image ? 'Yeni Resim Seç (Mevcudu Değiştir)' : 'Bilgisayardan Fotoğraf Seç')}
+                    {files.length > 0 ? `${files.length} fotoğraf seçildi` : (formData.image ? 'Yeni Resimler Seç (Mevcutları Değiştirir)' : 'Fotoğraflar Seç (Birden Fazla Seçebilirsiniz)')}
                   </label>
                 </div>
-                {formData.image && !file && (
-                  <div style={{ marginTop: '0.75rem', borderRadius: '0.5rem', overflow: 'hidden', border: '1px solid var(--border-color)', height: '100px' }}>
-                    <img src={formData.image} alt="Önizleme" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                {formData.image && files.length === 0 && (
+                  <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.5rem' }}>
+                    {formData.image.split(',').map((img, idx) => (
+                      <img key={idx} src={img} alt="Önizleme" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '0.5rem', flexShrink: 0, border: '1px solid var(--border-color)' }} />
+                    ))}
                   </div>
                 )}
               </div>
@@ -285,7 +287,7 @@ const Admin = () => {
                     {products.map(product => (
                       <tr key={product.id} style={{ transition: 'background 0.2s' }} className="hover:bg-gray-50">
                         <td>
-                          <img src={product.image} alt={product.title} style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '0.5rem', boxShadow: 'var(--shadow-sm)' }} />
+                          <img src={product.image ? product.image.split(',')[0] : ''} alt={product.title} style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '0.5rem', boxShadow: 'var(--shadow-sm)' }} />
                         </td>
                         <td style={{ fontWeight: 600, color: 'var(--secondary)' }}>{product.title}</td>
                         <td>
