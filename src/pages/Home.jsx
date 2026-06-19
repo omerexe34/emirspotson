@@ -216,7 +216,7 @@ const Home = () => {
           viewport={{ once: true }}>
           <h2>Eşyalarınız Değerinde Kalsın!</h2>
           <p>Kullanmadığınız eşyaları WhatsApp'tan fotoğraflayıp gönderin, anında fiyat alın. Kapınıza gelip nakit ödüyoruz!</p>
-          <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=Merhaba, eşyalarımın fotoğrafını atsam fiyat alabilir miyim?`}
+          <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=Merhaba, eşyalarımın fotoğrafını atsam fiyat verir misiniz?`}
             target="_blank" rel="noopener noreferrer"
             className="btn-primary"
             style={{ backgroundColor: '#25D366', backgroundImage: 'none', boxShadow: '0 4px 20px rgba(37,211,102,0.4)', padding: '1rem 2.5rem', fontSize: '1.1rem' }}>
