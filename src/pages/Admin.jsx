@@ -198,7 +198,7 @@ const Admin = () => {
         </div>
 
         {/* Main Content */}
-        <div className="grid" style={{ gridTemplateColumns: '1fr 2.5fr', gap: '2rem', alignItems: 'start' }}>
+        <div className="admin-layout">
           
           {/* Form */}
           <div className="admin-sidebar" style={{ position: 'sticky', top: '6rem' }}>
@@ -267,7 +267,7 @@ const Admin = () => {
               <h2 style={{ fontSize: '1.25rem' }}>Veritabanındaki İlanlar</h2>
             </div>
             
-            <div style={{ overflowX: 'auto', padding: '0 1rem 1rem 1rem' }}>
+            <div className="admin-table-wrap">
               {loading ? (
                 <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
                   <Loader2 size={32} className="spin" style={{ margin: '0 auto 1rem auto' }} /> Yükleniyor...
