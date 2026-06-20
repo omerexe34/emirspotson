@@ -53,8 +53,12 @@ const Home = () => {
   return (
     <div style={{ paddingBottom: '2rem' }}>
       <Helmet>
-        <title>Emir Spot | İkinci El Eşya Alım Satım Merkezi</title>
-        <meta name="description" content="Kullanmadığınız eşyalarınızı değerinde nakit alıyor, ihtiyacınız olan ürünleri en uygun fiyata sunuyoruz. Pendik ve çevresi spot eşya." />
+        <title>Emir Spot | Burhaniye İkinci El Eşya Alım Satım</title>
+        <meta name="description" content="Burhaniye ikinci el eşya alanlar. Kullanmadığınız eşyalarınızı değerinde nakit alıyor, uygun fiyata sunuyoruz. İkinci el emir spot." />
+        <meta name="keywords" content="ikinci el emir spot, burhaniye, ikinci el eşya, burhaniye spotçu, burhaniye ikinci el" />
+        <meta property="og:title" content="Emir Spot | Burhaniye İkinci El Eşya" />
+        <meta property="og:description" content="Burhaniye'de ikinci el eşyalarınızı anında nakde çevirin veya uygun fiyata eşya alın." />
+        <meta property="og:type" content="website" />
       </Helmet>
 
       {/* ── Hero ── */}
