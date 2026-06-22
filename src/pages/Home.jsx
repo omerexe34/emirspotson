@@ -53,11 +53,11 @@ const Home = () => {
   return (
     <div style={{ paddingBottom: '2rem' }}>
       <Helmet>
-        <title>Emir Spot | Burhaniye İkinci El Eşya Alım Satım</title>
-        <meta name="description" content="Burhaniye ikinci el eşya alanlar. Kullanmadığınız eşyalarınızı değerinde nakit alıyor, uygun fiyata sunuyoruz. İkinci el emir spot." />
-        <meta name="keywords" content="ikinci el emir spot, burhaniye, ikinci el eşya, burhaniye spotçu, burhaniye ikinci el" />
+        <title>Emir Spot | Burhaniye, Edremit, Akçay, Altınoluk İkinci El Eşya Alanlar</title>
+        <meta name="description" content="Burhaniye, Edremit, Akçay, Altınoluk ve Balıkesir genelinde ikinci el eşya alanlar. Kullanmadığınız eşyalarınızı değerinde nakit alıyor, uygun fiyata sunuyoruz. İkinci el emir spot." />
+        <meta name="keywords" content="burhaniye ikinci el eşya, edremit ikinci el eşya, akçay ikinci el eşya, altınoluk ikinci el eşya, ikinci el eşya alanlar, ikinci el, spotcu, balıkesir ikinci el eşya, emir spot" />
         <meta property="og:title" content="Emir Spot | Burhaniye İkinci El Eşya" />
-        <meta property="og:description" content="Burhaniye'de ikinci el eşyalarınızı anında nakde çevirin veya uygun fiyata eşya alın." />
+        <meta property="og:description" content="Balıkesir, Burhaniye, Edremit çevresinde ikinci el eşyalarınızı anında nakde çevirin veya uygun fiyata eşya alın." />
         <meta property="og:type" content="website" />
       </Helmet>
 
@@ -210,6 +210,16 @@ const Home = () => {
               </div>
             </motion.div>
           ))}
+        </div>
+      </div>
+
+      {/* ── SEO Hidden / Subtle Text ── */}
+      <div className="container" style={{ marginBottom: '2rem' }}>
+        <div style={{ background: 'var(--bg-card)', padding: '1.5rem', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
+          <h1 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '0.75rem', fontWeight: 800 }}>Balıkesir İkinci El Eşya Alanlar - Emir Spot</h1>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7' }}>
+            Balıkesir bölgesinde, özellikle <strong>Burhaniye ikinci el eşya</strong>, <strong>Edremit ikinci el eşya</strong>, <strong>Akçay ikinci el eşya</strong> ve <strong>Altınoluk ikinci el eşya</strong> alım satımında güvenilir adresiniz Emir Spot. Spotçu arıyorsanız, ikinci el eşyalarınızı anında nakde çevirmek veya kaliteli ikinci el eşya almak istiyorsanız bize ulaşın. <strong>İkinci el eşya alanlar</strong> arasında en yüksek fiyat garantisi ile <strong>Balıkesir ikinci el eşya</strong> ve spot eşya sektöründe hizmetinizdeyiz. Beyaz eşya, mobilya, elektronik ve antika eşyalarınızı aynı gün içerisinde adresinizden nakit olarak teslim alıyoruz.
+          </p>
         </div>
       </div>
 
