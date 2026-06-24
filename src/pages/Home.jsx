@@ -216,9 +216,9 @@ const Home = () => {
       {/* ── SEO Hidden / Subtle Text ── */}
       <div className="container" style={{ marginBottom: '2rem' }}>
         <div style={{ background: 'var(--bg-card)', padding: '1.5rem', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
-          <h1 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '0.75rem', fontWeight: 800 }}>Balıkesir İkinci El Eşya Alanlar - Emir Spot</h1>
+          <h1 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '0.75rem', fontWeight: 800 }}>İkinci El Eşya Alanlar - 2. El Eşya Alım Satım - Emir Spot</h1>
           <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7' }}>
-            Balıkesir bölgesinde, özellikle <strong>Burhaniye ikinci el eşya</strong>, <strong>Edremit ikinci el eşya</strong>, <strong>Akçay ikinci el eşya</strong> ve <strong>Altınoluk ikinci el eşya</strong> alım satımında güvenilir adresiniz Emir Spot. Spotçu arıyorsanız, ikinci el eşyalarınızı anında nakde çevirmek veya kaliteli ikinci el eşya almak istiyorsanız bize ulaşın. <strong>İkinci el eşya alanlar</strong> arasında en yüksek fiyat garantisi ile <strong>Balıkesir ikinci el eşya</strong> ve spot eşya sektöründe hizmetinizdeyiz. Beyaz eşya, mobilya, elektronik ve antika eşyalarınızı aynı gün içerisinde adresinizden nakit olarak teslim alıyoruz.
+            Evindeki veya iş yerindeki fazla eşyaları elden çıkarmak isteyenler için <strong>ikinci el eşya alanlar</strong> arasında en güvenilir adres Emir Spot. İster <strong>ikinci el</strong>, ister <strong>2. el</strong>, ister <strong>spot eşya</strong> olsun; mobilya, beyaz eşya ve elektronik gibi <strong>ikinci el her şey</strong> tarafımızdan değerinde ve anında nakit olarak alınır. Balıkesir bölgesinde, özellikle <strong>Burhaniye ikinci el eşya</strong>, <strong>Edremit ikinci el eşya</strong>, <strong>Akçay ikinci el eşya</strong> ve <strong>Altınoluk ikinci el eşya</strong> alım satımında hızlı hizmet veriyoruz. <strong>2.el eşya</strong> arıyorsanız veya <strong>spotçu</strong> arayışındaysanız bize hemen WhatsApp'tan ulaşın. Eşyalarınızı aynı gün içerisinde kendi aracımızla adresinizden teslim alıyoruz.
           </p>
         </div>
       </div>
